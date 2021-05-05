@@ -1,7 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
 
-export default function Dashboard() {
-  return(
-    <h2>Dashboard</h2>
+import TinderCard from "react-tinder-card";
+import Profile from "../Profile";
+
+export default function Dashboard(props) {
+  //**
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    fetch("http://localhost:7071/api/createUser")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setLoading(false);
+        setUsers(data);
+      })
+      .catch((error) => {
+        console.log("den fejlede");
+        console.log(error);
+      });
+  }, [props.location]);
+
+  const swiped = (direction) => {
+    console.log(direction);
+  };
+
+  const like = () => {
+    console.log("bruger liked");
+    setCurrentIndex(currentIndex + 1);
+  };
+
+  const dislike = () => {
+    console.log("bruger disliked");
+    setCurrentIndex(currentIndex + 1);
+  };
+
+  if (loading) {
+    return <div>loading...</div>;
+  }
+
+  return (
+    <div className="App">
+      <p>Hello world</p>
+      <div>
+        <TinderCard onSwipe={(direction) => swiped(direction)}>
+          <Profile user={users[currentIndex]} />
+        </TinderCard>
+      </div>
+      <button onClick={dislike}>Dislike</button>
+      <button onClick={like}>Like</button>
+    </div>
   );
 }

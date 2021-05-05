@@ -1,17 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import Login1 from './login'
-import Dashboard from '../src/components/Dashboard/Dashboard'
-import Login from '../src/components/Login/Login'
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import Login1 from "./components/Signup/Signup";
+import Dashboard from "../src/components/Dashboard/Dashboard";
+import Login from "../src/components/Login/Login";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Login1 />
+    <App />
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
