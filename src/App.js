@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React, { useEffect, useState, useMemo } from "react";
 import TinderCard from "react-tinder-card";
