@@ -12,15 +12,28 @@ import Signup from "./components/Signup/Signup";
 import Dashboard from "./components/Dashboard/Dashboard";
 import ProtectedRoute from "./ProtectedRouter";
 import history from "./history";
+
+import {
+  RecoilRoot,
+  atom,
+  selector,
+  useRecoilState,
+  useRecoilValue,
+} from "recoil";
+import { authState } from "./state/atom";
 function App() {
-  const [isAuthorized, setIsAuthotized] = useState(true);
+  const [_authState, setIsAuth] = useRecoilState(authState);
 
   const onLoginHandler = (e) => {
     e.preventDefault();
-    setIsAuthotized(true);
+    setIsAuth((prev) => {
+      return { ...prev, isAuth: true };
+    });
     history.push("/dashboard");
   };
-  console.log(isAuthorized);
+  console.log(_authState);
+  const isAuth = localStorage.getItem("isAuth");
+  const parsedIsAuth = isAuth === "true" ? true : false;
   return (
     <div>
       <Router history={history}>
@@ -41,7 +54,7 @@ function App() {
 
           <ProtectedRoute
             component={Dashboard}
-            user={isAuthorized}
+            user={parsedIsAuth}
             exact
             path="/dashboard"
           />

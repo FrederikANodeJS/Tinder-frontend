@@ -6,10 +6,13 @@ import reportWebVitals from "./reportWebVitals";
 import Login1 from "./components/Signup/Signup";
 import Dashboard from "../src/components/Dashboard/Dashboard";
 import Login from "../src/components/Login/Login";
+import { RecoilRoot } from "recoil";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("root")
 );

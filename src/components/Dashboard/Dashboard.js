@@ -1,7 +1,19 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 import TinderCard from "react-tinder-card";
+import history from "../../history";
 import Profile from "../Profile";
+
+const matchHandler = (user, isLikeBoolean) => {
+  if (
+    (user.name === "Pia" && isLikeBoolean) ||
+    (isLikeBoolean && Math.random() * 1 > 0.8)
+  ) {
+    const _name = user.gender === "M" ? "katrine" : user.name;
+    alert("New match!! " + _name);
+  }
+};
 
 export default function Dashboard(props) {
   //**
@@ -14,8 +26,8 @@ export default function Dashboard(props) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        setLoading(false);
         setUsers(data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log("den fejlede");
@@ -41,16 +53,54 @@ export default function Dashboard(props) {
     return <div>loading...</div>;
   }
 
+  const likeSwipeHandler = (isLike) => {
+    const isLikeBoolean = isLike ? 1 : 0;
+    const user = users[currentIndex];
+
+    const isMatch = matchHandler(user, isLikeBoolean);
+    axios
+      .post("http://localhost:7071/api/swipes", {
+        userId: 1,
+        ratedUserId: user.id,
+        isLike: isLikeBoolean,
+      })
+      .then((res) => {
+        console.log(res.data);
+        const msg = isLike
+          ? "you like a person good job"
+          : "Ugly people need love to ";
+        alert(msg);
+        if (isMatch) {
+          alert("You matched with " + isMatch.name);
+        }
+      });
+    const updatedCurrentIndex = currentIndex + 1;
+    setCurrentIndex(updatedCurrentIndex);
+  };
+
+  const logoutHandler = (e) => {
+    e.preventDefault();
+    localStorage.removeItem("isAuth");
+    history.push("/");
+  };
+
+  console.log(loading);
+  console.log(users);
   return (
     <div className="App">
-      <p>Hello world</p>
+      <button onClick={(e) => logoutHandler(e)}>Logout</button>
       <div>
-        <TinderCard onSwipe={(direction) => swiped(direction)}>
-          <Profile user={users[currentIndex]} />
-        </TinderCard>
+        {users.length > 0 && (
+          <TinderCard onSwipe={(direction) => swiped(direction)}>
+            <Profile
+              user={users[currentIndex]}
+              swipeHandler={likeSwipeHandler}
+            />
+          </TinderCard>
+        )}
       </div>
-      <button onClick={dislike}>Dislike</button>
-      <button onClick={like}>Like</button>
+      <button onClick={() => likeSwipeHandler(0)}>Dislike</button>
+      <button onClick={() => likeSwipeHandler(1)}>Like</button>
     </div>
   );
 }
