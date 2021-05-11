@@ -68,7 +68,7 @@ export default function Dashboard(props) {
         console.log(res.data);
         const msg = isLike
           ? "you like a person good job"
-          : "Ugly people need love to ";
+          : "You didn't like this person";
         alert(msg);
         if (isMatch) {
           alert("You matched with " + isMatch.name);
