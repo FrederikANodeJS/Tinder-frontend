@@ -2,7 +2,7 @@ import React, { Component, useState, useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 
-// denne funktion er til at håndte
+// denne funktion er til at håndtere den information brugeren indtaster ved signup
 export default class Signup extends Component {
   constructor() {
     super();
@@ -16,15 +16,18 @@ export default class Signup extends Component {
     };
   }
 
+  // funktion til at håndtere forandringer
   handleChange = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  // funktion til at håndtere den data som brugeren har indtastet
   handleSubmit = (event) => {
     event.preventDefault();
 
     const url = "http://localhost:7071/api/createUser";
 
+    // sætter den data brugeren har indtastet til staten
     const data = {
       name: this.state.name,
       birthday: this.state.birthday,
@@ -33,10 +36,10 @@ export default class Signup extends Component {
       hashed_password: this.state.hashed_password,
     };
     console.log("User: " + data);
-    fetch(url, {
+    fetch(url, { // fetcher vores createUser endpoint med post metoden
       method: "POST", // or ‘PUT’
 
-      body: JSON.stringify(data), // data can be `string` or {object}!
+      body: JSON.stringify(data), // JSON.stringify til at lave informationen til en string 
 
       headers: { "Content-Type": "application/json" },
     })
@@ -44,6 +47,9 @@ export default class Signup extends Component {
       .catch((error) => console.error("Error:", error))
       .then((response) => console.log("Success:", response));
   };
+
+
+  // her er hvad der vises på siden
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
@@ -85,65 +91,3 @@ export default class Signup extends Component {
     );
   }
 }
-// const [email, setEmail] = useState("");
-// const [hashed_password, setHashed_password] = useState("");
-
-// const [loginStatus, setLoginStatus] = useState("");
-
-// const login = () => {
-//     fetch("http://localhost:7071/api/login", {
-//         method: "POST",
-//         email: email,
-//         hashed_password: hashed_password,
-//     }).then((response) => {
-//         if (response.data.message) {
-//             setLoginStatus(response.data.message)
-//         } else {
-//             setLoginStatus(response.data[0].email)
-//         }
-//     })
-
-// }
-
-// export default class Login extends Component {
-//     constructor(){
-//         super();
-//         this.state={ email:'' , hashed_password:''}
-//         }
-//     // function validateForm() {
-//     //   return email.length > 0 && password.length > 0;
-//     // }
-//     handleChange = event =>{
-//         this.setState({ [event.target.email]:event.target.value, [event.target.hashed_password]: event.target.value })
-//         }
-
-// handleSubmit = event => {
-// event.preventDefault();
-
-// // console.log("User Email : " + this.state.email)
-
-// const url ="http://localhost:7071/api/login"
-
-// const data = { email:this.state.email, hashed_password:this.state.hashed_password}
-// console.log("User: " + data)
-// fetch(url, { method: 'GET',
-
-// //body: JSON.stringify(data), // data can be `string` or {object}!
-
-// headers:{ "Content-Type": "application/json" } })
-// .then(res => res.json())
-// .catch(error => console.error('Error:', error))
-// .then(response => console.log('Success:', response)); }
-// render() {
-
-//     return (
-//       <form onSubmit={this.handleSubmit}>
-// <input type="email" name="email" placeholder="email" onChange={this.handleChange} />
-// <input type="text" name="hashed_password" placeholder="Password" onChange={this.handleChange} />
-
-// <input type="submit" value="login" /> </form>
-
-//     )
-
-//   }
-// }
