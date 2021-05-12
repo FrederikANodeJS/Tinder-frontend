@@ -8,6 +8,8 @@ import Dashboard from "../src/components/Dashboard/Dashboard";
 import Login from "../src/components/Login/Login";
 import { RecoilRoot } from "recoil";
 
+
+// her er hvad der bliver loadet når vi starter appen
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>

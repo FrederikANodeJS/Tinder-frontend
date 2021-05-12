@@ -21,19 +21,24 @@ import {
   useRecoilValue,
 } from "recoil";
 import { authState } from "./state/atom";
+
+// funktion til brugren authState for login
 function App() {
   const [_authState, setIsAuth] = useRecoilState(authState);
 
+  // ved login bliver auth true
   const onLoginHandler = (e) => {
     e.preventDefault();
     setIsAuth((prev) => {
       return { ...prev, isAuth: true };
     });
-    history.push("/dashboard");
+    history.push("/dashboard"); // sender brugeren til dashboard
   };
   console.log(_authState);
   const isAuth = localStorage.getItem("isAuth");
   const parsedIsAuth = isAuth === "true" ? true : false;
+
+  // her er hvad der bliver vist på siden
   return (
     <div>
       <Router history={history}>

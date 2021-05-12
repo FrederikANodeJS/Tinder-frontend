@@ -1,8 +1,12 @@
 import React from "react";
 import { Route } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+
+// funktion til en beskyttet route for brugeren
 const ProtectedRoute = ({ component: Component, user, ...rest }) => {
   console.log(user);
+
+  
   return (
     <Route
       {...rest}
@@ -14,7 +18,7 @@ const ProtectedRoute = ({ component: Component, user, ...rest }) => {
           return (
             <Redirect
               to={{
-                pathname: "/",
+                pathname: "/", // hvis brugeren er fin bliver man sendt tilbage
                 state: {
                   from: props.location,
                 },
